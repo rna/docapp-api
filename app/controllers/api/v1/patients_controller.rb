@@ -18,7 +18,7 @@ class Api::V1::PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
 
     if @patient.save
-      render json: @patient, status: :created, location: @patient
+      render json: @patient, status: :created, location: api_v1_patient_url(@patient)
     else
       render json: @patient.errors, status: :unprocessable_entity
     end
