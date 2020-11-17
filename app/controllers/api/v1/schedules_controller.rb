@@ -18,7 +18,7 @@ class Api::V1::SchedulesController < ApplicationController
     @schedule = Schedule.new(schedule_params)
 
     if @schedule.save
-      render json: @schedule, status: :created, location: api_v1_schedule_url(@schedule)
+      render json: @schedule, status: :created
     else
       render json: @schedule.errors, status: :unprocessable_entity
     end
