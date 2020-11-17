@@ -5,7 +5,7 @@ class Schedule < ApplicationRecord
     time_slots = []
 
     Schedule.all.each do |s|
-      (s.start_time.to_i..s.end_time.to_i).step(1800).each do |time|
+      (s.start_time.to_i..s.end_time.to_i).step(s.duration*60).each do |time|
         time_slots << Time.at(time)
       end
     end

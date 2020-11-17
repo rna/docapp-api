@@ -50,6 +50,6 @@ class Api::V1::SchedulesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def schedule_params
-      params.require(:schedule).permit(:start_date, :start_time, :end_date, :end_time, :interval, :doctor_id)
+      params.require(:schedule).permit(:start_date, :start_time, :end_date, :end_time, :duration, :doctor_id)
     end
 end
