@@ -1,10 +1,10 @@
 class Api::V1::SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :update, :destroy]
+  before_action :set_doctor, only: [:index, :create]
 
   # GET /schedules
   def index
-    @schedules = Schedule.all
-
+    @schedules = @doctor.schedules
     render json: @schedules
   end
 
@@ -42,6 +42,10 @@ class Api::V1::SchedulesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_schedule
       @schedule = Schedule.find(params[:id])
+    end
+
+    def set_doctor
+      @doctor = Doctor.find(params[:doctor_id])
     end
 
     # Only allow a trusted parameter "white list" through.
