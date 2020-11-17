@@ -4,7 +4,7 @@ class Api::V1::SchedulesController < ApplicationController
 
   # GET /schedules
   def index
-    @schedules = @doctor.schedules
+    @schedules = @doctor.schedules.time_slots
     render json: @schedules
   end
 
@@ -15,7 +15,7 @@ class Api::V1::SchedulesController < ApplicationController
 
   # POST /schedules
   def create
-    @schedule = Schedule.new(schedule_params)
+    @schedule = @doctor.schedules.new(schedule_params)
 
     if @schedule.save
       render json: @schedule, status: :created
