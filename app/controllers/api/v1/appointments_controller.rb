@@ -1,7 +1,7 @@
 class Api::V1::AppointmentsController < ApplicationController
-  before_action :set_appointment, only: [:show, :update, :destroy]
-  before_action :set_patient, only: [:create, :patientAppointments]
-  before_action :set_doctor, only: [:doctorAppointments]
+  before_action :set_appointment, only: %i[show update destroy]
+  before_action :set_patient, only: %i[create patient_appointments]
+  before_action :set_doctor, only: [:doctor_appointments]
 
   # GET /appointments
   def index
@@ -9,15 +9,16 @@ class Api::V1::AppointmentsController < ApplicationController
     render json: @appointments
   end
 
-  def patientAppointments
+  def patient_appointments
     @patient_appointments = @patient.appointments
     render json: @patient_appointments
   end
 
-  def doctorAppointments
+  def doctor_appointments
     @doctor_appointments = @doctor.appointments
     render json: @doctor_appointments
   end
+
   # GET /appointments/1
   def show
     render json: @appointment
@@ -49,21 +50,22 @@ class Api::V1::AppointmentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_appointment
-      @appointment = Appointment.find(params[:id])
-    end
 
-    def set_patient
-      @patient = Patient.find(params[:patient_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
+  end
 
-    def set_doctor
-      @doctor = Doctor.find(params[:doctor_id])
-    end
+  def set_patient
+    @patient = Patient.find(params[:patient_id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def appointment_params
-      params.require(:appointment).permit(:date, :appointment_time, :patient_id, :doctor_id)
-    end
+  def set_doctor
+    @doctor = Doctor.find(params[:doctor_id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def appointment_params
+    params.require(:appointment).permit(:date, :appointment_time, :patient_id, :doctor_id)
+  end
 end

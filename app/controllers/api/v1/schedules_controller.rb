@@ -1,6 +1,6 @@
 class Api::V1::SchedulesController < ApplicationController
-  before_action :set_schedule, only: [:show, :update, :destroy]
-  before_action :set_doctor, only: [:index, :create]
+  before_action :set_schedule, only: %i[show update destroy]
+  before_action :set_doctor, only: %i[index create]
 
   # GET /schedules
   def index
@@ -39,17 +39,18 @@ class Api::V1::SchedulesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_schedule
-      @schedule = Schedule.find(params[:id])
-    end
 
-    def set_doctor
-      @doctor = Doctor.find(params[:doctor_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_schedule
+    @schedule = Schedule.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def schedule_params
-      params.require(:schedule).permit(:start_date, :start_time, :end_date, :end_time, :duration, :doctor_id)
-    end
+  def set_doctor
+    @doctor = Doctor.find(params[:doctor_id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def schedule_params
+    params.require(:schedule).permit(:start_date, :start_time, :end_date, :end_time, :duration, :doctor_id)
+  end
 end

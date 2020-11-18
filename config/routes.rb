@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :patients do
         resources :appointments do
           collection do
-            get 'patientAppointments'
+            get 'patient_appointments'
           end
         end
       end
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         resources :schedules
         resources :appointments do
           collection do
-            get 'doctorAppointments'
+            get 'doctor_appointments'
           end
         end
       end

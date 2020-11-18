@@ -1,5 +1,5 @@
 class Api::V1::PatientsController < ApplicationController
-  before_action :set_patient, only: [:show, :update, :destroy]
+  before_action :set_patient, only: %i[show update destroy]
 
   # GET /patients
   def index
@@ -39,13 +39,14 @@ class Api::V1::PatientsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_patient
-      @patient = Patient.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def patient_params
-      params.require(:patient).permit(:name, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_patient
+    @patient = Patient.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def patient_params
+    params.require(:patient).permit(:name, :email)
+  end
 end
