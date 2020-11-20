@@ -4,9 +4,8 @@ class Appointment < ApplicationRecord
   belongs_to :schedule
 
   after_save do
-    booked = self.schedule
+    booked = schedule
     booked.available = false
-    booked.save()
+    booked.save
   end
-
 end
