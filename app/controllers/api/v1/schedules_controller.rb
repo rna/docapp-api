@@ -4,7 +4,7 @@ class Api::V1::SchedulesController < ApplicationController
 
   # GET /schedules
   def index
-    @schedules = @doctor.schedules.time_slots
+    @schedules = @doctor.schedules
     render json: @schedules
   end
 
