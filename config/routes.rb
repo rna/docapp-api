@@ -3,19 +3,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :patients do
-        resources :appointments do
-          collection do
-            get 'patient_appointments'
-          end
-        end
+        resources :appointments
       end
       resources :doctors do
         resources :schedules
-        resources :appointments do
-          collection do
-            get 'doctor_appointments'
-          end
-        end
+        resources :appointments
       end
     end
   end

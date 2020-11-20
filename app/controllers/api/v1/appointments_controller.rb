@@ -1,22 +1,21 @@
 class Api::V1::AppointmentsController < ApplicationController
   before_action :set_appointment, only: %i[show update destroy]
-  before_action :set_patient, only: %i[create patient_appointments]
-  before_action :set_doctor, only: [:doctor_appointments]
+  before_action :set_patient, only: %i[create]
+  
 
   # GET /appointments
   def index
-    @appointments = Appointment.all
+    if params[:patient_id].present?
+      @patient = Patient.find(params[:patient_id])
+      @appointments = @patient.appointments.patient_appointments(@patient.id)
+    end
+
+    if params[:doctor_id].present?
+      @doctor = Doctor.find(params[:doctor_id])
+      @appointments = @doctor.appointments.doctor_appointments(@doctor.id)
+    end
+
     render json: @appointments
-  end
-
-  def patient_appointments
-    @patient_appointments = @patient.appointments
-    render json: @patient_appointments
-  end
-
-  def doctor_appointments
-    @doctor_appointments = @doctor.appointments
-    render json: @doctor_appointments
   end
 
   # GET /appointments/1
@@ -58,10 +57,6 @@ class Api::V1::AppointmentsController < ApplicationController
 
   def set_patient
     @patient = Patient.find(params[:patient_id])
-  end
-
-  def set_doctor
-    @doctor = Doctor.find(params[:doctor_id])
   end
 
   # Only allow a trusted parameter "white list" through.
