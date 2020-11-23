@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_20_204356) do
+ActiveRecord::Schema.define(version: 2020_11_23_132459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_11_20_204356) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.date "date"
+    t.string "date"
     t.string "time"
     t.integer "duration"
     t.bigint "doctor_id", null: false

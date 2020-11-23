@@ -15,11 +15,11 @@ class Api::V1::SchedulesController < ApplicationController
 
   # POST /schedules
   def create
-    start_date = Time.parse(params[:start_date]).to_i
-    end_date = Time.parse(params[:end_date]).to_i
-    start_time = Time.parse(params[:start_time]).to_i
-    end_time = Time.parse(params[:end_time]).to_i
-    duration = params[:duration]
+    start_date = Time.parse(schedule_params[:start_date]).to_i
+    end_date = Time.parse(schedule_params[:end_date]).to_i
+    start_time = Time.parse(schedule_params[:start_time]).to_i
+    end_time = Time.parse(schedule_params[:end_time]).to_i
+    duration = schedule_params[:duration]
 
     @time_slots = (start_date..end_date).step(86400).each do |date|
       (start_time..end_time).step(duration * 60).each do |time|
