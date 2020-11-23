@@ -21,16 +21,16 @@ class Api::V1::SchedulesController < ApplicationController
     end_time = Time.parse(schedule_params[:end_time]).to_i
     duration = schedule_params[:duration]
 
-    @time_slots = (start_date..end_date).step(86400).each do |date|
+    @time_slots = (start_date..end_date).step(86_400).each do |date|
       (start_time..end_time).step(duration * 60).each do |time|
         slot_date = Time.at(date).strftime('%D')
-        slot_time =  slot_date + " " +Time.at(time).strftime('%H:%M')
+        slot_time = slot_date + ' ' + Time.at(time).strftime('%H:%M')
         @doctor.schedules.create(date: slot_date, time: slot_time, duration: duration)
       end
     end
 
     if @time_slots
-      render json: {status: 'SUCCESS', message: 'Successfully posted'}
+      render json: { status: 'SUCCESS', message: 'Successfully posted' }
     else
       render json: @schedule.errors, status: :unprocessable_entity
     end

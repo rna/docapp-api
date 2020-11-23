@@ -10,10 +10,10 @@ class Appointment < ApplicationRecord
   end
 
   def self.patient_appointments(id)
-    Schedule.left_outer_joins(:appointments).where(appointments: {patient_id:id})
+    Schedule.left_outer_joins(:appointments).where(appointments: { patient_id: id })
   end
 
   def self.doctor_appointments(id)
-    Schedule.left_outer_joins(:appointments).where(appointments: {doctor_id:id})
+    Schedule.left_outer_joins(:appointments).where(appointments: { doctor_id: id })
   end
 end
