@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       resources :patients do
         resources :appointments
       end
+      post "patient/login", to:"patients#login"
+      get "patient/auto_login", to:"patients#auto_login"
       resources :doctors do
         resources :schedules
         resources :appointments

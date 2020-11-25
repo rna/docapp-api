@@ -1,4 +1,5 @@
 class Api::V1::PatientsController < ApplicationController
+  before_action :authorize, only: [:auto_login]
   before_action :set_patient, only: %i[show update destroy]
 
   # GET /patients
@@ -15,13 +16,29 @@ class Api::V1::PatientsController < ApplicationController
 
   # POST /patients
   def create
-    @patient = Patient.new(patient_params)
+    @patient = Patient.create(patient_params)
 
-    if @patient.save
-      render json: @patient, status: :created, location: api_v1_patient_url(@patient)
+    if @patient.valid?
+      token = encode_token({ patient_id: @patient.id })
+      render json: { patient: @patient, token: token }
     else
-      render json: @patient.errors, status: :unprocessable_entity
+      render json: { error: 'Invalid username or password' }
     end
+  end
+
+  def login
+    @patient = Patient.find_by(email: patient_params[:email])
+
+    if @patient&.authenticate(patient_params[:password])
+      token = encode_token({ patient_id: @patient.id })
+      render json: { patient: @patient, token: token }
+    else
+      render json: { error: 'Invalid username or password' }
+    end
+  end
+
+  def auto_login
+    render json: @patient
   end
 
   # PATCH/PUT /patients/1
@@ -47,6 +64,6 @@ class Api::V1::PatientsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def patient_params
-    params.require(:patient).permit(:name, :email)
+    params.require(:patient).permit(:name, :email, :password, :image)
   end
 end
