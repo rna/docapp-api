@@ -1,4 +1,5 @@
 class Api::V1::SchedulesController < ApplicationController
+  before_action :authorize, only: %i[create update destroy]
   before_action :set_schedule, only: %i[show update destroy]
   before_action :set_doctor, only: %i[index create]
 

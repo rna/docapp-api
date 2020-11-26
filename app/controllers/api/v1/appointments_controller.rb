@@ -1,4 +1,5 @@
 class Api::V1::AppointmentsController < ApplicationController
+  before_action :authorize, only: %i[create update destroy]
   before_action :set_appointment, only: %i[show update destroy]
   before_action :set_patient, only: %i[create]
 

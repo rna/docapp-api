@@ -1,5 +1,5 @@
 class Api::V1::DoctorsController < ApplicationController
-  before_action :authorize, only: [:auto_login]
+  before_action :authorize, only: %i[auto_login update destroy]
   before_action :set_doctor, only: %i[show update destroy]
 
   # GET /doctors
