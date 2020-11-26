@@ -23,14 +23,11 @@ class ApplicationController < ActionController::API
   end
 
   def login_user
-    if decode_token && decode_token[0]['patient_id']
-      patient_id = decode_token[0]['patient_id']
-      @patient = Patient.find_by(id: patient_id)
-    end
-
-    if decode_token && decode_token[0]['doctor_id']
-      doctor_id = decode_token[0]['doctor_id']
-      @doctor = Doctor.find_by(id: doctor_id)
+    if decode_token
+      @patient_id = decode_token[0]['patient_id']
+      @doctor_id = decode_token[0]['doctor_id']
+      return @patient = Patient.find_by(id: @patient_id) if @patient_id
+      return @doctor = Doctor.find_by(id: @doctor_id) if @doctor_id
     end
   end
 
