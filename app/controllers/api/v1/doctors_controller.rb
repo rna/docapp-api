@@ -15,14 +15,31 @@ class Api::V1::DoctorsController < ApplicationController
 
   # POST /doctors
   def create
-    @doctor = Doctor.new(doctor_params)
+    @doctor = Doctor.create(doctor_params)
 
-    if @doctor.save
-      render json: @doctor, status: :created, location: api_v1_doctor_url(@doctor)
+    if @doctor.valid?
+      token = encode_token({ doctor_id: @doctor.id })
+      render json: { doctor: @doctor, token: token }
     else
-      render json: @doctor.errors, status: :unprocessable_entity
+      render json: { error: 'Invalid username or password' }
     end
   end
+
+  def login
+    @doctor = Doctor.find_by(email: doctor_params[:email])
+
+    if @doctor&.authenticate(doctor_params[:password])
+      token = encode_token({ doctor_id: @doctor.id })
+      render json: { doctor: @doctor, token: token }
+    else
+      render json: { error: 'Invalid username or password' }
+    end
+  end
+
+  def auto_login
+    render json: @doctor
+  end
+
 
   # PATCH/PUT /doctors/1
   def update
@@ -47,6 +64,6 @@ class Api::V1::DoctorsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def doctor_params
-    params.require(:doctor).permit(:name, :email, :specialization, :experience, :fee)
+    params.require(:doctor).permit(:name, :email, :password, :specialization, :experience, :fee, :image)
   end
 end
