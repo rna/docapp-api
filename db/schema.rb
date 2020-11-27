@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_115025) do
+ActiveRecord::Schema.define(version: 2020_11_27_090306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 2020_11_26_115025) do
   create_table "appointments", force: :cascade do |t|
     t.bigint "patient_id", null: false
     t.bigint "doctor_id", null: false
-    t.bigint "schedule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "schedule_id"
     t.index ["doctor_id"], name: "index_appointments_on_doctor_id"
     t.index ["patient_id"], name: "index_appointments_on_patient_id"
-    t.index ["schedule_id"], name: "index_appointments_on_schedule_id"
+    t.index ["schedule_id"], name: "index_appointments_on_schedule_id", unique: true
   end
 
   create_table "doctors", force: :cascade do |t|
