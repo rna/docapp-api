@@ -22,7 +22,7 @@ class Api::V1::DoctorsController < ApplicationController
       token = encode_token({ doctor_id: @doctor.id })
       render json: { doctor: @doctor, token: token }
     else
-      render json: { error: 'Invalid username or password' }
+      render json: { error: 'Email already registered' }
     end
   end
 
@@ -38,7 +38,8 @@ class Api::V1::DoctorsController < ApplicationController
   end
 
   def auto_login
-    render json: @doctor
+    token = encode_token({ doctor_id: @doctor.id })
+    render json: { doctor: @doctor, token: token }
   end
 
   # PATCH/PUT /doctors/1
