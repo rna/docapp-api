@@ -92,7 +92,7 @@ Open `http://localhost:3000/` in your browser.
 ### Run tests
 
 ```sh
-    rpsec --format documentation
+    rspec --format documentation
 ```
 
 <!-- ### Deployment -->
